@@ -4,9 +4,9 @@ WORKDIR /app
 
 RUN apk add --no-cache bash
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-RUN npm install && npm install -g @expo/ngrok
+RUN npm ci
 
 COPY . .
 

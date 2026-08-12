@@ -2,16 +2,19 @@ services:
   app:
     build: .
     container_name: arcontrole-react
+
     user: "1000:1000"
-    ports:
-      - "8081:8081"
+
+    network_mode: host
+
     volumes:
       - .:/app
       - /app/node_modules
+
     environment:
-      # Garante que o Expo saiba que está rodando dentro de um ambiente Docker
-      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
-    # Modificamos o comando para forçar o início com o modo Tunnel do Expo
-    command: npm run start -- --tunnel
+      EXPO_DEVTOOLS_LISTEN_ADDRESS: 0.0.0.0
+
+    command: npm run start
+
     stdin_open: true
     tty: true

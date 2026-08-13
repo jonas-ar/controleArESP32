@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TextInput, View, KeyboardAvoidingView, Platform } from "react-native";
+import { Text, TextInput, View, KeyboardAvoidingView, Platform, TouchableOpacity } from "react-native";
 import { style } from "./styles";
 
 export default function Login() {
@@ -32,13 +32,21 @@ export default function Login() {
 
                 <Text style={style.titleInput}>Senha MQTT</Text>
                     <View style={style.boxInput}>
-                        <TextInput style={style.input} />
+                        <TextInput 
+                            autoCorrect={false} 
+                            style={style.input} 
+                            autoCapitalize="none"
+                            textContentType="password"
+                            secureTextEntry={true}
+                             />
                     </View>
 
             </View>
 
                 <View style={style.boxBottom}>
-                    
+                    <TouchableOpacity style={style.button}>
+                        <Text style={style.textButton}>Conectar</Text>
+                    </TouchableOpacity>
                 </View>
 
         </KeyboardAvoidingView>

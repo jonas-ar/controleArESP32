@@ -26,6 +26,7 @@ export const style = StyleSheet.create({
     boxBottom: {
         height: Dimensions.get('window').height/4,
         width: '100%',
+        alignItems: 'center'
     },
     titulo: {
         fontSize: 24,
@@ -50,5 +51,27 @@ export const style = StyleSheet.create({
         marginRight: 5,
         height: '100%',
         width: '95%'
+    },
+    button: {
+        width: 150,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: themes.colors.primary,
+        borderRadius: 40,
+        marginTop: 30,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+        elevation: 7,
+    },
+    textButton: {
+        fontSize: 16,
+        color: '#fff',
+        fontWeight: 'bold'
     }
 })

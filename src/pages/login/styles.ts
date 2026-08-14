@@ -15,7 +15,7 @@ export const style = StyleSheet.create({
         justifyContent: 'center'
     },
     boxMid: {
-        height: Dimensions.get('window').height/2.7,
+        height: Dimensions.get('window').height/2.15,
         backgroundColor: themes.colors.secondary,
         borderRadius: 20,
         borderBlockColor: 'red',

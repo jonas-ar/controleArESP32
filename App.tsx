@@ -1,12 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './src/pages/login';
+import { useState } from "react";
+import { MqttClient } from "mqtt";
+import Control from "./src/pages/control";
+import Login from "./src/pages/login";
 
 export default function App() {
-  return (
-      <Login />
+  const [client, setClient] = useState<MqttClient | null>(null);
+
+  return client ? (
+    <Control client={client} onDisconnect={() => setClient(null)} />
+  ) : (
+    <Login onConnected={setClient} />
   );
 }
-
-const styles = StyleSheet.create({
-});

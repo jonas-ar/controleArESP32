@@ -1,77 +1,44 @@
-import {Dimensions, StyleSheet} from "react-native";
-import { themes } from "../../global/themes";
+import { StyleSheet } from "react-native";
 
 export const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: themes.colors.bgScreen
-    },
-    boxTop: {
-        height: Dimensions.get('window').height/4,
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    boxMid: {
-        height: Dimensions.get('window').height/2.7,
-        backgroundColor: themes.colors.secondary,
-        borderRadius: 20,
-        borderBlockColor: 'red',
-        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
-        padding: 10,
-        width: '85%',
-    },
-    boxBottom: {
-        height: Dimensions.get('window').height/4,
-        width: '100%',
-        alignItems: 'center'
-    },
-    titulo: {
-        fontSize: 24,
-        textAlign: 'center',
-        marginBottom: 5,
-        fontWeight: 'bold'
-    },
-    titleInput: {
-        fontSize: 16,
-    },
-    boxInput: {
-        width: '100%',
-        height: 40,
-        borderWidth: 1,
-        borderRadius: 10,
-        marginTop: 10,
-        marginBottom: 10
-    },
-    input: {
-        borderRadius: 40,
-        marginLeft: 5,
-        marginRight: 5,
-        height: '100%',
-        width: '95%'
-    },
-    button: {
-        width: 150,
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: themes.colors.primary,
-        borderRadius: 40,
-        marginTop: 30,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 3,
-        },
-        shadowOpacity: 0.29,
-        shadowRadius: 4.65,
-        elevation: 7,
-    },
-    textButton: {
-        fontSize: 16,
-        color: '#fff',
-        fontWeight: 'bold'
-    }
-})
+  container: { flex: 1, backgroundColor: "#0b1220" },
+  content: { padding: 16, paddingBottom: 40 },
+  loginContent: { flexGrow: 1, justifyContent: "space-between" },
+  loginMain: { flex: 1, justifyContent: "center" },
+  loginStatus: { alignSelf: "center" },
+  loginCard: { alignSelf: "center", width: "100%" },
+  header: { marginBottom: 20, position: "relative" },
+  headerWithTopSpacing: { marginTop: 24 },
+  backButton: { height: 40, justifyContent: "center", left: 0, position: "absolute", top: -6, width: 40, zIndex: 1 },
+  backButtonText: { color: "#93c5fd", fontSize: 38, lineHeight: 40 },
+  headerTitle: { color: "#f8fafc", fontSize: 28, fontWeight: "700", textAlign: "center" },
+  headerSubtitle: { color: "#94a3b8", marginTop: 4, textAlign: "center" },
+  status: { alignSelf: "flex-start", backgroundColor: "#422006", borderRadius: 999, color: "#fde68a", fontSize: 13, fontWeight: "600", overflow: "hidden", paddingHorizontal: 10, paddingVertical: 5 },
+  error: { color: "#fca5a5", marginBottom: 12, marginTop: 12 },
+  lastResponse: { color: "#cbd5e1", marginVertical: 14 },
+  card: { backgroundColor: "#172033", borderColor: "#334155", borderRadius: 16, borderWidth: 1, marginBottom: 16, padding: 16 },
+  cardTitle: { color: "#f1f5f9", fontSize: 18, fontWeight: "700", marginBottom: 10 },
+  titleInput: { color: "#cbd5e1", fontSize: 14, marginBottom: 5, marginTop: 8 },
+  input: { backgroundColor: "#0f172a", borderColor: "#475569", borderRadius: 9, borderWidth: 1, color: "#f8fafc", minHeight: 42, paddingHorizontal: 10, paddingVertical: 8 },
+  rememberRow: { alignItems: "center", flexDirection: "row", marginTop: 14 },
+  checkbox: { alignItems: "center", borderColor: "#94a3b8", borderRadius: 4, borderWidth: 1, height: 20, justifyContent: "center", marginRight: 8, width: 20 },
+  checkboxChecked: { backgroundColor: "#2563eb", borderColor: "#2563eb" },
+  checkmark: { color: "#fff", fontSize: 14, fontWeight: "700" },
+  rememberText: { color: "#cbd5e1", fontSize: 14 },
+  button: { alignItems: "center", backgroundColor: "#2563eb", borderRadius: 9, marginTop: 12, padding: 11 },
+  disconnectButton: { backgroundColor: "#475569" },
+  textButton: { color: "#fff", fontWeight: "700" },
+  quickActions: { flexDirection: "row", gap: 8, marginTop: 4 },
+  quickButton: { alignItems: "center", backgroundColor: "#2563eb", borderRadius: 7, flex: 1, padding: 11 },
+  controlContent: { flexGrow: 1 },
+  commandArea: { alignItems: "center", flex: 1, justifyContent: "center" },
+  commandButtons: { gap: 14, width: "100%" },
+  commandButton: { alignItems: "center", backgroundColor: "#2563eb", borderRadius: 14, minHeight: 76, justifyContent: "center", width: "100%" },
+  commandButtonText: { color: "#fff", fontSize: 20, fontWeight: "700" },
+  onButton: { backgroundColor: "#15803d" },
+  offButton: { backgroundColor: "#b91c1c" },
+  logBox: { backgroundColor: "#0a1020", borderColor: "#334155", borderRadius: 9, borderWidth: 1, height: 180, marginTop: 4, padding: 10 },
+  logText: { color: "#cbd5e1", fontFamily: "monospace", fontSize: 12, marginBottom: 7 },
+  modalOverlay: { alignItems: "center", backgroundColor: "rgba(2, 6, 23, 0.78)", flex: 1, justifyContent: "center", padding: 16 },
+  modalContent: { backgroundColor: "#172033", borderColor: "#334155", borderRadius: 16, borderWidth: 1, maxWidth: 560, padding: 16, width: "100%" },
+});

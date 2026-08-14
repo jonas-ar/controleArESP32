@@ -11,15 +11,22 @@
     },
     "android": {
       "adaptiveIcon": {
+        "package": "com.jonas.controlearesp32",
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.jonasar.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ec11866f-c159-4d64-b7ba-7f29e117f64f"
+      }
     }
   }
 }

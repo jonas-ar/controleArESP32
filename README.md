@@ -1,5 +1,8 @@
 # Este projeto utiliza WSL2 com docker
-Foi criado um ALIAS node24-docker que tem como comando `$(pwd):/app" -w /app node:24-alpine npx create-expo-app@latest . --template blank-typescript`
+Use npm install para instalar as dependências do projeto
+```
+docker compose exec app npm install novo-pacote
+````
 ## Regras para liberação do Firewall para o Expo Metro
 ```
 New-NetFirewallHyperVRule `

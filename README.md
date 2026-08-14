@@ -1,7 +1,7 @@
 # Este projeto utiliza WSL2 com docker
 Use npm install para instalar as dependências do projeto
 ```
-docker compose exec app npm install novo-pacote
+docker compose exec app npm install
 ````
 ## Regras para liberação do Firewall para o Expo Metro
 ```

@@ -8,6 +8,8 @@ COPY package.json package-lock.json ./
 
 RUN npm ci
 
+RUN npm ci && chown -R node:node /app
+
 COPY . .
 
 EXPOSE 8081

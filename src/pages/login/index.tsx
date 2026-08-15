@@ -1,130 +1,142 @@
-import React, { useState } from "react";
-import mqtt, {MqttClient} from "mqtt";
-import { Text, TextInput, View, KeyboardAvoidingView, Platform, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
+import React, { useEffect, useState } from "react";
+import mqtt, { MqttClient } from "mqtt";
+import * as SecureStore from "expo-secure-store";
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { style } from "./styles";
 
 type LoginProps = {
-    onConnected: (client: MqttClient, topico: string) => void;
-}
+  onConnected: (client: MqttClient, topico: string) => void;
+};
 
-export default function Login({onConnected}: LoginProps) {
-    
-    const [url, setUrl] = useState('');
-    const [user, setUser] = useState('');
-    const [password, setPassword] = useState('');
-    const [topico, setTopico] = useState('');
-    const [loading, setLoading] = useState(false);
+const DADOS_CONEXAO_KEY = "dados-conexao-mqtt";
 
-    function getLogin() {
-        if (!url || !user || !password || !topico) {
-            Alert.alert("Atenção", "Todos os campos precisam ser preenchidos!");
-            return;
-        }
-        setLoading(true);
+export default function Login({ onConnected }: LoginProps) {
+  const [url, setUrl] = useState("");
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
+  const [topico, setTopico] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [lembrarDados, setLembrarDados] = useState(false);
 
-        const clientId = `mqtt${Math.random().toString(16).slice(3)}`;
+  useEffect(() => {
+    async function carregarDadosSalvos() {
+      const dadosSalvos = await SecureStore.getItemAsync(DADOS_CONEXAO_KEY);
+      if (!dadosSalvos) return;
 
-        let invalidUrl: URL;
-        
-        try {
-            invalidUrl = new URL(url.trim());
-        } catch {
-            Alert.alert("Atenção", "URL não é válida");
-            setLoading(false);
-            return
-        };
-        
-        if (invalidUrl.protocol !== "wss:") {
-            Alert.alert("Atenção", "Protocolo inválido");
-            setLoading(false);
-            return
-        }
-
-        const client = mqtt.connect(invalidUrl.toString(), {
-            clientId,
-            clean: true,
-            connectTimeout: 4000,
-            username: user,
-            password,
-            reconnectPeriod: 1000
-        });
-
-        client.on('error', (error) => {
-            setLoading(false);
-            Alert.alert("Conexão falhou", error.toString());
-            client.end();
-        });
-
-        client.on('connect', () => {
-            Alert.alert("Aviso", "Conexão realizada")
-            setLoading(false);
-            client.subscribe([topico], () => {
-                console.log(`Inscrito no tópico '${topico}'`);
-                onConnected(client, topico);
-            });
-        });
+      const { urlSalva, usuarioSalvo, topicoSalvo } = JSON.parse(dadosSalvos);
+      setUrl(urlSalva);
+      setUser(usuarioSalvo);
+      setTopico(topicoSalvo);
+      setLembrarDados(true);
     }
 
-    return (
-        <KeyboardAvoidingView
-        style={style.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-            <View style={style.boxTop} />
-            
-            <View style={style.boxMid}>
+    carregarDadosSalvos().catch(() => Alert.alert("Atenção", "Não foi possível carregar os dados salvos."));
+  }, []);
 
-                <Text style={style.titulo}>Conexão</Text>
-                    <Text style={style.titleInput}>URL WebSocket TLS</Text>
-                
-                <View style={style.boxInput}>
-                    <TextInput style={style.input}
-                        onChangeText={setUrl}
-                    />
-                </View>
-                
-                <Text style={style.titleInput}>Usuário MQTT</Text>
-                    <View style={style.boxInput}>
-                        <TextInput style={style.input} 
-                            autoCorrect={false} 
-                            autoCapitalize="none"
-                            onChangeText={setUser}
-                            />
-                    </View>
+  async function salvarDados() {
+    if (!lembrarDados) return;
 
-                <Text style={style.titleInput}>Senha MQTT</Text>
-                    <View style={style.boxInput}>
-                        <TextInput 
-                            autoCorrect={false} 
-                            style={style.input} 
-                            autoCapitalize="none"
-                            textContentType="password"
-                            secureTextEntry={true}
-                            onChangeText={setPassword}
-                             />
-                    </View>
+    await SecureStore.setItemAsync(DADOS_CONEXAO_KEY, JSON.stringify({
+      urlSalva: url,
+      usuarioSalvo: user,
+      topicoSalvo: topico,
+    }));
+  }
 
-                <Text style={style.titleInput}>Tópico MQTT</Text>
-                    <View style={style.boxInput}>
-                        <TextInput style={style.input} 
-                            autoCorrect={false}
-                            autoCapitalize="none"
-                            onChangeText={setTopico}
-                            />
-                    </View>
-            </View>
+  function alternarLembrarDados() {
+    if (lembrarDados) SecureStore.deleteItemAsync(DADOS_CONEXAO_KEY);
+    setLembrarDados(!lembrarDados);
+  }
 
-                <View style={style.boxBottom}>
-                    <TouchableOpacity style={style.button} onPress={getLogin} disabled={loading}>
-                        {
-                            loading?
-                                <ActivityIndicator color={'#fff'} size={"small"}/>
-                            :
-                                <Text style={style.textButton}>Conectar</Text>
-                        }
-                    </TouchableOpacity>
-                </View>
+  async function getLogin() {
+    if (!url || !user || !password || !topico) {
+      Alert.alert("Atenção", "Todos os campos precisam ser preenchidos!");
+      return;
+    }
 
-        </KeyboardAvoidingView>
-    )
+    setLoading(true);
+
+    let brokerUrl: URL;
+    try {
+      brokerUrl = new URL(url.trim());
+    } catch {
+      setLoading(false);
+      Alert.alert("Atenção", "URL não é válida.");
+      return;
+    }
+
+    if (brokerUrl.protocol !== "wss:") {
+      setLoading(false);
+      Alert.alert("Atenção", "Use uma URL segura iniciando com wss://");
+      return;
+    }
+
+    try {
+      await salvarDados();
+    } catch {
+      setLoading(false);
+      Alert.alert("Atenção", "Não foi possível salvar os dados.");
+      return;
+    }
+
+    const client = mqtt.connect(brokerUrl.toString(), {
+      clientId: `mqtt${Math.random().toString(16).slice(3)}`,
+      clean: true,
+      connectTimeout: 4000,
+      username: user,
+      password,
+      reconnectPeriod: 1000,
+    });
+
+    const tratarErroDeConexao = (error: Error) => {
+      setLoading(false);
+      Alert.alert("Conexão falhou", error.toString());
+      client.end();
+    };
+
+    client.on("error", tratarErroDeConexao);
+    client.on("connect", () => {
+      setLoading(false);
+      client.off("error", tratarErroDeConexao);
+      client.subscribe([topico], () => onConnected(client, topico));
+    });
+  }
+
+  return (
+    <KeyboardAvoidingView style={style.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+      <ScrollView contentContainerStyle={style.scrollContent} keyboardShouldPersistTaps="handled">
+        <View style={style.content}>
+          <Text style={style.appTitle}>Controle ESP32</Text>
+          <Text style={style.appSubtitle}>Conecte-se ao seu broker MQTT</Text>
+
+          <View style={style.formCard}>
+            <Text style={style.formTitle}>Dados de conexão</Text>
+
+            <Text style={style.label}>URL WebSocket TLS</Text>
+            <TextInput style={style.input} value={url} onChangeText={setUrl} placeholder="wss://seu-broker:8884/mqtt" placeholderTextColor="#94a3b8" autoCapitalize="none" autoCorrect={false} />
+
+            <Text style={style.label}>Usuário MQTT</Text>
+            <TextInput style={style.input} value={user} onChangeText={setUser} autoCapitalize="none" autoCorrect={false} />
+
+            <Text style={style.label}>Senha MQTT</Text>
+            <TextInput style={style.input} value={password} onChangeText={setPassword} secureTextEntry autoCapitalize="none" autoCorrect={false} />
+
+            <Text style={style.label}>Tópico de comandos</Text>
+            <TextInput style={style.input} value={topico} onChangeText={setTopico} autoCapitalize="none" autoCorrect={false} />
+
+            <TouchableOpacity style={style.rememberRow} onPress={alternarLembrarDados}>
+              <View style={[style.checkbox, lembrarDados && style.checkboxChecked]}>
+                {lembrarDados && <Text style={style.checkmark}>✓</Text>}
+              </View>
+              <Text style={style.rememberText}>Lembrar URL, usuário e tópico</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity style={[style.connectButton, loading && style.connectButtonDisabled]} onPress={getLogin} disabled={loading}>
+            {loading ? <ActivityIndicator color="#fff" /> : <Text style={style.connectButtonText}>Conectar</Text>}
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 }

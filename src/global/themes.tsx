@@ -3,6 +3,6 @@ export const themes = {
         primary: '#395e7ad8',
         secondary: '#ffffff',
         lightGray: '#d7d8d7',
-        bgScreen: '#1d1d35'
+        bgScreen: '#373d6b'
     }
 }

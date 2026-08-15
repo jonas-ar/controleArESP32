@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import mqtt from "mqtt";
+import mqtt, {MqttClient} from "mqtt";
 import { Text, TextInput, View, KeyboardAvoidingView, Platform, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { style } from "./styles";
 
-export default function Login() {
+type LoginProps = {
+    onConnected: (client: MqttClient, topico: string) => void;
+}
+
+export default function Login({onConnected}: LoginProps) {
     
     const [url, setUrl] = useState('');
     const [user, setUser] = useState('');
@@ -31,7 +35,7 @@ export default function Login() {
         };
         
         if (invalidUrl.protocol !== "wss:") {
-            Alert.alert("Atenção", "Procoto inválido");
+            Alert.alert("Atenção", "Protocolo inválido");
             setLoading(false);
             return
         }
@@ -56,6 +60,7 @@ export default function Login() {
             setLoading(false);
             client.subscribe([topico], () => {
                 console.log(`Inscrito no tópico '${topico}'`);
+                onConnected(client, topico);
             });
         });
     }

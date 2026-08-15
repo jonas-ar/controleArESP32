@@ -18,7 +18,6 @@ export const style = StyleSheet.create({
         height: Dimensions.get('window').height/2.15,
         backgroundColor: themes.colors.secondary,
         borderRadius: 20,
-        borderBlockColor: 'red',
         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
         padding: 10,
         width: '85%',

@@ -33,3 +33,5 @@ Remove-NetFirewallHyperVRule -Name "ExpoMetro8081"
 ```
 Remove-NetFirewallRule -DisplayName "Expo Metro 8081"
 ```
+# ESP32
+O ESP32 foi configurado utilizando o sistema operacional FreeRTOS para gerenciamento das tarefas e suas prioridades. O core 0 fica responsável pelas conexões, enquanto que o core 1 realiza as tarefas de transmitir o sinal do LED IR após verificar as notificações de ligar/desligar.

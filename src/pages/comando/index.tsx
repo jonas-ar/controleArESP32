@@ -10,7 +10,7 @@ type ComandoProps = {
 }
 
 export default function Comando({client, topico, onBack}: ComandoProps) {
-    const topicoStatus = "esp32/led/status";
+    const topicoStatus = "esp32/ar/status";
     const [modalVisivel, setModalVisivel] = useState(false);
     const [mensagensStatus, setMensagensStatus] = useState<string[]>([]);
 

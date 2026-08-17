@@ -106,8 +106,8 @@ export default function Login({ onConnected }: LoginProps) {
     <KeyboardAvoidingView style={style.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <ScrollView contentContainerStyle={style.scrollContent} keyboardShouldPersistTaps="handled">
         <View style={style.content}>
-          <Text style={style.appTitle}>Controle ESP32</Text>
-          <Text style={style.appSubtitle}>Conecte-se ao seu broker MQTT</Text>
+          <Text style={style.appTitle}>Login</Text>
+          <Text style={style.appSubtitle}>Faça a conexão com o broker MQTT</Text>
 
           <View style={style.formCard}>
             <Text style={style.formTitle}>Dados de conexão</Text>

@@ -3,7 +3,7 @@
 > 💡 Use npm install para instalar as dependências do projeto
 
 ```bash
-docker compose exec app npm install
+docker compose exec app npx expo install
 ```
 
 ## 🔥 Regras para liberação do Firewall para o Expo Metro

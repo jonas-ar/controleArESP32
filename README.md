@@ -18,7 +18,7 @@ New-NetFirewallHyperVRule `
   -LocalPorts 8081
 ```
 
-> O comando acima cria uma rule para HyperV Firewall do WSL.
+O comando acima cria uma rule para HyperV Firewall do WSL.
 
 ```powershell
 New-NetFirewallRule `
